@@ -649,8 +649,8 @@ def main():
     print(f"Khóa dùng cho AES: {aes_key}")
     print()
 
-    # Nếu bạn có phiên bản AES khác, chỉ cần thay phần trong aes_demo()
-    # hoặc đổi lời gọi dưới đây sang hàm AES của bạn.
+    # Nếu  có phiên bản AES khác, chỉ cần thay phần trong aes_demo()
+    # hoặc đổi lời gọi dưới đây sang hàm AES .
     aes_demo(plaintext, aes_key)
     rsa_demo(plaintext)
     sha256_demo(plaintext)
