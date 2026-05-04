@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 import random
 import sys
@@ -268,17 +269,17 @@ def aes128_encrypt_cbc(plaintext, key_text):
 
 def aes128_decrypt_cbc(ciphertext, key_text, iv):
     """
-    Giai ma AES-128 theo che do CBC.
-    - Giai ma tung block roi XOR voi IV hoac block ma truoc do.
-    - Bo padding PKCS#7 va chuyen lai UTF-8.
+    Giải mã AES-128 theo chế độ CBC.
+    - Giải mã từng block rồi XOR với IV hoặc block mã trước đó.
+    - Bỏ padding PKCS#7 và chuyển lại UTF-8.
     """
     key_bytes = key_text.encode("utf-8")
     if len(key_bytes) != 16:
-        raise ValueError("Khoa AES-128 phai dung 16 byte.")
+        raise ValueError("Khóa AES-128 phải đúng 16 byte.")
     if len(iv) != 16:
-        raise ValueError("IV phai dung 16 byte.")
+        raise ValueError("IV phải đúng 16 byte.")
     if len(ciphertext) % 16 != 0:
-        raise ValueError("Ciphertext phai la boi so cua 16 byte.")
+        raise ValueError("Ciphertext phải là bội số của 16 byte.")
 
     round_keys = key_expansion(key_bytes)
     previous_block = iv
@@ -298,7 +299,7 @@ def aes128_decrypt_cbc(ciphertext, key_text, iv):
 
 def aes_demo(plaintext, key):
     """
-    Demo AES-128 CBC, giu nguyen loi AES co san.
+    Demo AES-128 CBC, giữ nguyên lõi AES có sẵn.
     """
     print("===== 1. AES-128 CBC =====")
     plaintext_bytes = plaintext.encode("utf-8")
@@ -307,14 +308,14 @@ def aes_demo(plaintext, key):
     iv, ciphertext = aes128_encrypt_cbc(plaintext, key)
     decrypted_text = aes128_decrypt_cbc(ciphertext, key, iv)
 
-    print(f"Plaintext ban dau: {plaintext}")
-    print(f"Do dai plaintext theo byte: {len(plaintext_bytes)} byte")
-    print(f"Khoa AES-128: {key}")
-    print(f"Do dai khoa theo byte: {len(key_bytes)} byte")
+    print(f"Plaintext ban đầu: {plaintext}")
+    print(f"Độ dài plaintext theo byte: {len(plaintext_bytes)} byte")
+    print(f"Khóa AES-128: {key}")
+    print(f"Độ dài khóa theo byte: {len(key_bytes)} byte")
     print(f"IV (hex): {iv.hex()}")
     print(f"Ciphertext (hex): {ciphertext.hex()}")
-    print(f"Plaintext sau giai ma: {decrypted_text}")
-    print(f"Ket qua kiem tra: {'DUNG' if decrypted_text == plaintext else 'SAI'}")
+    print(f"Plaintext sau giải mã: {decrypted_text}")
+    print(f"Kết quả kiểm tra: {'ĐÚNG' if decrypted_text == plaintext else 'SAI'}")
     print()
 
 def gcd(a, b):
@@ -437,16 +438,16 @@ def rsa_demo(plaintext):
     ciphertext = rsa_encrypt_text(plaintext, e, n)
     decrypted_text = rsa_decrypt_text(ciphertext, d, n)
 
-    print(f"Plaintext ban dau: {plaintext}")
+    print(f"Plaintext ban đầu: {plaintext}")
     print(f"p = {p}")
     print(f"q = {q}")
     print(f"n = p * q = {n}")
     print(f"phi(n) = (p - 1) * (q - 1) = {phi_n}")
     print(f"e = {e}")
     print(f"d = {d}")
-    print(f"Ciphertext (danh sach so nguyen): {ciphertext}")
-    print(f"Plaintext sau giai ma: {decrypted_text}")
-    print(f"Ket qua kiem tra: {'DUNG' if decrypted_text == plaintext else 'SAI'}")
+    print(f"Ciphertext (danh sách số nguyên): {ciphertext}")
+    print(f"Plaintext sau giải mã: {decrypted_text}")
+    print(f"Kết quả kiểm tra: {'ĐÚNG' if decrypted_text == plaintext else 'SAI'}")
     print()
 
 
@@ -553,8 +554,8 @@ def sha256(message):
 def sha256_demo(plaintext):
     print("===== 3. SHA-256 =====")
     hash_hex = sha256(plaintext)
-    print(f"Plaintext ban dau: {plaintext}")
-    print(f"Gia tri bam SHA-256 (hex): {hash_hex}")
+    print(f"Plaintext ban đầu: {plaintext}")
+    print(f"Giá trị băm SHA-256 (hex): {hash_hex}")
     print()
 
 
@@ -645,11 +646,11 @@ def dsa_demo(plaintext):
     signature = dsa_sign(plaintext, p, q, g, x)
     is_valid = dsa_verify(plaintext, signature, p, q, g, y)
 
-    print(f"Plaintext ban dau: {plaintext}")
-    print(f"Tham so cong khai (p, q, g) = ({p}, {q}, {g})")
-    print(f"Khoa cong khai y = {y}")
-    print(f"Chu ky so (r, s) = {signature}")
-    print(f"Ket qua xac minh chu ky: {'HOP LE' if is_valid else 'KHONG HOP LE'}")
+    print(f"Plaintext ban đầu: {plaintext}")
+    print(f"Tham số công khai (p, q, g) = ({p}, {q}, {g})")
+    print(f"Khóa công khai y = {y}")
+    print(f"Chữ ký số (r, s) = {signature}")
+    print(f"Kết quả xác minh chữ ký: {'HỢP LỆ' if is_valid else 'KHÔNG HỢP LỆ'}")
     print()
 
 
@@ -665,37 +666,37 @@ def configure_console_utf8():
 
 def print_system_info(plaintext, aes_key):
     """
-    In thong tin dau vao dung chung cho toan bo chuong trinh.
+    In thông tin đầu vào dùng chung cho toàn bộ chương trình.
     """
-    print("===== TH\u00d4NG TIN \u0110\u1ea6U V\u00c0O H\u1ec6 TH\u1ed0NG =====")
-    print(f"Plaintext dung chung: {plaintext}")
-    print(f"Do dai plaintext theo byte: {len(plaintext.encode('utf-8'))} byte")
-    print(f"Khoa AES nhap vao: {aes_key}")
-    print(f"Do dai khoa AES theo byte: {len(aes_key.encode('utf-8'))} byte")
+    print("===== THÔNG TIN ĐẦU VÀO HỆ THỐNG =====")
+    print(f"Plaintext dùng chung: {plaintext}")
+    print(f"Độ dài plaintext theo byte: {len(plaintext.encode('utf-8'))} byte")
+    print(f"Khóa AES nhập vào: {aes_key}")
+    print(f"Độ dài khóa AES theo byte: {len(aes_key.encode('utf-8'))} byte")
     print()
 
 
 def read_demo_inputs():
     """
-    Nhap plaintext va khoa AES tu nguoi dung.
-    Neu bam Enter thi dung gia tri mac dinh.
+    Nhập plaintext và khóa AES từ người dùng.
+    Nếu bấm Enter thì dùng giá trị mặc định.
     """
-    default_plaintext = "\u0110\u1ea0I H\u1eccC GIAO TH\u00d4NG V\u1eacN T\u1ea2I TPHCM"
+    default_plaintext = "ĐẠI HỌC GIAO THÔNG VẬN TẢI TPHCM"
     default_key = "NGO THANH PHU123"
 
-    print("===== NH\u1eacP D\u1eee LI\u1ec6U DEMO =====")
-    plaintext_input = input("Nhap plaintext dung chung (Enter de dung mac dinh): ").strip().lstrip("\ufeff")
+    print("===== NHẬP DỮ LIỆU DEMO =====")
+    plaintext_input = input("Nhập plaintext dùng chung (Enter để dùng mặc định): ").strip().lstrip("\ufeff")
     plaintext = plaintext_input if plaintext_input else default_plaintext
 
     while True:
-        key_input = input("Nhap khoa AES-128 (16 byte, Enter de dung mac dinh): ").strip().lstrip("\ufeff")
+        key_input = input("Nhập khóa AES-128 (16 byte, Enter để dùng mặc định): ").strip().lstrip("\ufeff")
         aes_key = key_input if key_input else default_key
 
         key_len = len(aes_key.encode("utf-8"))
         if key_len == 16:
             break
 
-        print(f"Loi: khoa hien tai co {key_len} byte, AES-128 yeu cau dung 16 byte. Vui long nhap lai.")
+        print(f"Lỗi: khóa hiện tại có {key_len} byte, AES-128 yêu cầu đúng 16 byte. Vui lòng nhập lại.")
 
     print()
     return plaintext, aes_key
@@ -707,7 +708,7 @@ def main():
     plaintext, aes_key = read_demo_inputs()
     print_system_info(plaintext, aes_key)
 
-    print("===== DEMO 4 K\u1ef8 THU\u1eacT M\u1eacT M\u00c3 C\u01a0 B\u1ea2N =====")
+    print("===== DEMO 4 KỸ THUẬT MẬT MÃ CƠ BẢN =====")
     print()
 
     aes_demo(plaintext, aes_key)
